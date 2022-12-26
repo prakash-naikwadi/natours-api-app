@@ -81,10 +81,19 @@ exports.updateTour = async (req, res) => {
   }
 };
 
-exports.deleteTour = (req, res) => {
-  const parameters = req.params;
-  res.status(204).json({
-    status: 'success',
-    data: null,
-  });
+exports.deleteTour = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const tour = await Tour.findByIdAndDelete(id);
+    console.log(tour);
+    res.status(204).json({
+      status: 'success',
+      message: 'Deleted Items Successfully',
+    });
+  } catch (error) {
+    res.status(404).json({
+      status: 'failed',
+      message: 'Not deleted, problem occurred',
+    });
+  }
 };
