@@ -1,7 +1,16 @@
 const { query } = require('express');
 const Tour = require('./../models/tourModel');
 
+exports.aliasTopTours = (req, res, next) => {
+  // ?sort=price,-ratingsAverage&limit=5
+  // replace above query string every time this top-5-cheap route hits
+  req.query.sort = 'price,-ratingsAverage';
+  req.query.limit = '5';
+  next();
+};
+
 exports.getAllTours = async (req, res) => {
+  console.log(req.query);
   try {
     // BUILD QUERY
     // 1A) Filtering
